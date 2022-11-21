@@ -1,0 +1,261 @@
+CIO code;Nom du pays FR;Nom du pays EN;Code ISO Alpha 3;Obsolète
+AFG; Afghanistan; Afghanistan;AFG;N
+ALB; Albanie; Albania;ALB;N
+ALG; Algérie; Algeria;DZA;N
+AND; Andorre; Andorra;AND;N
+ANG; Angola; Angola;AGO;N
+ANT; Antigua-et-Barbuda; Antigua and Barbuda;ATG;N
+ARG; Argentine; Argentina;ARG;N
+ARM; Arménie; Armenia;ARM;N
+ARU; Aruba; Aruba;ABW;N
+ASA; Samoa américaines; American Samoa;ASM;N
+AUS; Australie ; Australia;AUS;N
+AUT; Autriche; Austria;AUT;N
+AZE; Azerbaïdjan; Azerbaijan;AZE;N
+BAH; Bahamas; Bahamas;BHS;N
+BAN; Bangladesh; Bangladesh;BGD;N
+BAR; Barbade; Barbados;BRB;N
+BDI; Burundi; Burundi;BDI;N
+BEL; Belgique; Belgium;BEL;N
+BEN; Bénin; Benin;BEN;N
+BER; Bermudes; Bermuda;BMU;N
+BHU; Bhoutan; Bhutan;BTN;N
+BIH; Bosnie-Herzégovine; Bosnia and Herzegovina;BIH;N
+BIZ; Belize; Belize;BLZ;N
+BLR; Biélorussie; Belarus;BLR;N
+BOL; Bolivie; Bolivia;BOL;N
+BOT; Botswana; Botswana;BWA;N
+BRA; Brésil; Brazil;BRA;N
+BRN; Bahreïn; Bahrain;BHR;N
+BRU; Brunei; Brunei;BRN;N
+BUL; Bulgarie; Bulgaria;BGR;N
+BUR; Burkina Faso; Burkina Faso;BFA;N
+CAF; République centrafricaine; Central African Republic;CAF;N
+CAM; Cambodge; Cambodia;KHM;N
+CAN; Canada; Canada;CAN;N
+CAY; Îles Caïmans; Cayman Islands;CYM;N
+CGO; République du Congo; Republic of the Congo;COG;N
+CHA; Tchad; Chad;TCD;N
+CHI; Chili; Chile;CHL;N
+CHN; Chine; China;CHN;N
+CIV; Côte d'Ivoire; Ivory Coast;CIV;N
+CMR; Cameroun; Cameroon;CMR;N
+COD; République démocratique du Congo; Democratic Republic of the Congo;COD;N
+COK; Îles Cook; Cook Islands;COK;N
+COL; Colombie; Colombia;COL;N
+COM; Comores; Comoros;COM;N
+COR; Corée unifiée;;COR;N
+CPV; Cap-Vert; Cape Verde;CPV;N
+CRC; Costa Rica; Costa Rica;CRI;N
+CRO; Croatie; Croatia;HRV;N
+CUB; Cuba; Cuba;CUB;N
+CYP; Chypre; Cyprus;CYP;N
+CZE; République tchèque; Czech Republic;CZE;N
+DEN; Danemark; Denmark;DNK;N
+DJI; Djibouti; Djibouti;DJI;N
+DMA; Dominique; Dominica;DMA;N
+DOM; République dominicaine; Dominican Republic;DOM;N
+ECU;  Équateur; Ecuador;ECU;N
+EGY; Égypte; Egypt;EGY;N
+ERI; Érythrée; Eritrea;ERI;N
+ESA; Salvador; El Salvador;SLV;N
+ESP; Espagne; Spain;ESP;N
+EST; Estonie; Estonia;EST;N
+ETH; Éthiopie; Ethiopia;ETH;N
+FIJ; Fidji; Fiji;FJI;N
+FIN; Finlande; Finland;FIN;N
+FRA; France; France;FRA;N
+FSM; États fédérés de Micronésie; Federated States of Micronesia;FSM;N
+GAB; Gabon; Gabon;GAB;N
+GAM; Gambie; The Gambia;GMB;N
+GBR; Grande-Bretagne; Great Britain;GBR;N
+GBS; Guinée-Bissau; Guinea-Bissau;GNB;N
+GEO; Géorgie; Georgia;GEO;N
+GEQ; Guinée équatoriale; Equatorial Guinea;GNQ;N
+GER; Allemagne; Germany;DEU;N
+GHA; Ghana; Ghana;GHA;N
+GRE; Grèce; Greece;GRC;N
+GRN; Grenade; Grenada;GRD;N
+GUA; Guatemala; Guatemala;GTM;N
+GUI; Guinée; Guinea;GIN;N
+GUM; Guam; Guam;GUM;N
+GUY; Guyana; Guyana;GUY;N
+HAI; Haïti; Haiti;HTI;N
+HKG; Hong Kong; Hong Kong, China;HKG;N
+HON; Honduras; Honduras;HND;N
+HUN; Hongrie; Hungary;HUN;N
+INA; Indonésie; Indonesia;IDN;N
+IND; Inde; India;IND;N
+IRI; Iran  Iran; Iran;IRN;N
+IRL; Irlande; Ireland;IRL;N
+IRQ; Irak; Iraq;IRQ;N
+ISL; Islande; Iceland;ISL;N
+ISR; Israël; Israel;ISR;N
+ISV; Îles Vierges des États-Unis; Virgin Islands;VIR;N
+ITA; Italie; Italy;ITA;N
+IVB; Îles Vierges britanniques; British Virgin Islands;VGB;N
+JAM; Jamaïque; Jamaica;JAM;N
+JOR; Jordanie; Jordan;JOR;N
+JPN; Japon; Japan;JPN;N
+KAZ; Kazakhstan; Kazakhstan;KAZ;N
+KEN; Kenya; Kenya;KEN;N
+KGZ; Kirghizistan; Kyrgyzstan;KGZ;N
+KIR; Kiribati; Kiribati;KIR;N
+KOS; Kosovo; Kosovo;;N
+KOR; Corée du Sud; South Korea;KOR;N
+KSA; Arabie saoudite; Saudi Arabia;SAU;N
+KUW; Koweït; Kuwait;KWT;N
+LAO; Laos; Laos;LAO;N
+LAT; Lettonie; Latvia;LVA;N
+LBA; Libye; Libya;LBY;N
+LBN; Liban; Lebanon;LBN;N
+LBR; Liberia; Liberia;LBR;N
+LCA; Sainte-Lucie; Saint Lucia;LCA;N
+LES; Lesotho; Lesotho;LSO;N
+LIE; Liechtenstein; Liechtenstein;LIE;N
+LTU; Lituanie; Lithuania;LTU;N
+LUX; Luxembourg; Luxembourg;LUX;N
+MAD; Madagascar; Madagascar;MDG;N
+MAR; Maroc; Morocco;MAR;N
+MAS; Malaisie; Malaysia;MYS;N
+MAW; Malawi; Malawi;MWI;N
+MDA; Moldavie; Moldova;MDA;N
+MDV; Maldives; Maldives;MDV;N
+MEX; Mexique; Mexico;MEX;N
+MGL; Mongolie; Mongolia;MNG;N
+MHL; Îles Marshall; Marshall Islands;MHL;N
+MKD; Macédoine du Nord; North Macedonia;MKD;N
+MLI; Mali; Mali;MLI;N
+MLT; Malte; Malta;MLT;N
+MNE; Monténégro; Montenegro;MNE;N
+MON; Monaco; Monaco;MCO;N
+MOZ; Mozambique; Mozambique;MOZ;N
+MRI; Maurice; Mauritius;MUS;N
+MTN; Mauritanie; Mauritania;MRT;N
+MYA; Birmanie; Myanmar;MMR;N
+NAM; Namibie; Namibia;NAM;N
+NCA; Nicaragua; Nicaragua;NIC;N
+NED; Pays-Bas; Netherlands;NLD;N
+NEP; Népal; Nepal;NPL;N
+NGR; Nigeria; Nigeria;NGA;N
+NIG; Niger; Niger;NER;N
+NOR; Norvège; Norway;NOR;N
+NRU; Nauru; Nauru;NRU;N
+NZL; Nouvelle-Zélande; New Zealand;NZL;N
+OAR; Athlètes olympiques de Russie; Olympic Athletes from Russia;;N
+OMA; Oman; Oman;OMN;N
+PAK; Pakistan; Pakistan;PAK;N
+PAN; Panama; Panama;PAN;N
+PAR; Paraguay; Paraguay;PRY;N
+PER; Pérou; Peru;PER;N
+PHI; Philippines; Philippines;PHL;N
+PLE; Palestine; Palestine;PSE;N
+PLW; Palaos; Palau;PLW;N
+PNG; Papouasie-Nouvelle-Guinée; Papua New Guinea;PNG;N
+POL; Pologne; Poland;POL;N
+POR; Portugal; Portugal;PRT;N
+PRK; Corée du Nord; North Korea;PRK;N
+PUR; Porto Rico; Puerto Rico;PRI;N
+QAT; Qatar; Qatar;QAT;N
+ROC; Comité olympique de Russie; Russian Olympic Comitee;;N
+ROT; Équipe olympique des réfugiés; Refugee Olympic Team;;N
+ROU; Roumanie; Romania;ROU;N
+RSA; Afrique du Sud; South Africa;ZAF;N
+RUS; Russie; Russia;RUS;N
+RWA; Rwanda; Rwanda;RWA;N
+SAM; Samoa; Samoa;WSM;N
+SEN; Sénégal; Senegal;SEN;N
+SEY; Seychelles; Seychelles;SYC;N
+SGP; Singapour; Singapore;SGP;N
+SKN; Saint-Christophe-et-Niévès; Saint Kitts and Nevis;KNA;N
+SLE; Sierra Leone; Sierra Leone;SLE;N
+SLO; Slovénie; Slovenia;SVN;N
+SMR; Saint-Marin; San Marino;SMR;N
+SOL; Îles Salomon; Solomon Islands;SLB;N
+SOM; Somalie; Somalia;SOM;N
+SRB; Serbie; Serbia;SRB;N
+SRI; Sri Lanka; Sri Lanka;LKA;N
+SSD; Soudan du Sud; South Sudan;SSD;N
+STP; Sao Tomé-et-Principe; São Tomé and Príncipe;STP;N
+SUD; Soudan; Sudan;SDN;N
+SUI; Suisse; Switzerland;CHE;N
+SUR; Suriname; Suriname;SUR;N
+SVK; Slovaquie; Slovakia;SVK;N
+SWE; Suède; Sweden;SWE;N
+SWZ; Eswatini; Eswatini;SWZ;N
+SYR; Syrie ; Syria;SYR;N
+TAN; Tanzanie; Tanzania;TZA;N
+TGA; Tonga; Tonga;TON;N
+THA; Thaïlande; Thailand;THA;N
+TJK; Tadjikistan; Tajikistan;TJK;N
+TKM; Turkménistan; Turkmenistan;TKM;N
+TLS; Timor oriental; Timor-Leste;TLS;N
+TOG; Togo; Togo;TGO;N
+TPE; Taipei chinois; Chinese Taipei;TWN;N
+TTO; Trinité-et-Tobago; Trinidad and Tobago;TTO;N
+TUN; Tunisie; Tunisia;TUN;N
+TUR; Turquie; Turkey;TUR;N
+TUV; Tuvalu; Tuvalu;TUV;N
+UAE; Émirats arabes unis; United Arab Emirates;ARE;N
+UGA; Ouganda; Uganda;UGA;N
+UKR; Ukraine; Ukraine;UKR;N
+URU; Uruguay; Uruguay;URY;N
+USA; États-Unis; United States of America;USA;N
+UZB; Ouzbékistan; Uzbekistan;UZB;N
+VAN; Vanuatu; Vanuatu;VUT;N
+VEN; Venezuela; Venezuela;VEN;N
+VIE; Viêt Nam; Vietnam;VNM;N
+VIN; Saint-Vincent-et-les-Grenadines; Saint Vincent and the Grenadines;VCT;N
+YEM; Yémen; Yemen;YEM;N
+ZAM; Zambie; Zambia;ZMB;N
+ZIM; Zimbabwe; Zimbabwe;ZWE;N
+IPP; Participants paralympiques indépendants; Independant Paralympic Participants;;N
+IPA; Athlètes paralympiques indépendants; Independant Paralympic Athletes;;N
+NPA; Athlètes paralympiques neutres; Neutral Paralympic Athletes;;N
+PNA; Athlètes paralympiques neutres; Paralympic Neurtral Athletes;;N
+RPC; Comité paralympique russe; Russian Paralympic Comitee;;N
+RPT; Équipe paralympique des réfugiés; Refugee Paralympic Team;;N
+HLN; Iroquois; Iroquois;;N
+MAC; Macao; Macau;;O
+FRO; Iles Féroé; Faroe Islands;;O
+AGR; Algérie; Algeria;;O
+AHO; Antilles néerlandaises; Netherlands Antilles;;O
+AIA; Anguilla; Anguilla;;O
+ANZ; Australasie; Australasia;;O
+BOH; Bohème; Bohemia;;O
+BWI; Fédération des Indes Occidentales; British West Indies;;O
+EUA; Equipe Unifiée d'Allemagne; United Team of Germany;;O
+EUN; Equipe Unifiée de l'ex-URSS; Unified Team of ex-USSR;;O
+FRG; République Fédérale d'Allemagne; West Germany;;O
+GDR; République Démocratique Allemande; East Germany;;O
+HEB; Nouvelles Hébrides; New Hebrides;;O
+IHO; Indes Orientales Hollandaises; Dutch East Indies;;O
+JAP; Japon; Japan;;O
+RHO; Rhodésie; Rhodesia;;O
+RU1; Empire Russe; Russian Empire;;O
+SCG; Serbie et Monténégro; Serbia and Montenegro;;O
+TCH; Tchécoslovaquie; Czechoslovakia;;O
+UAR; République Arabe Unie; United Arab Republic;;O
+URS; Union des républiques socialistes soviétiques; Soviet Union;;O
+VNM; Vietnam du Sud; South Vietnam;;O
+YUG; Yougoslavie; Yugoslavia;;O
+ZZX; Equipe mixte aux Jeux olympiques; Mixed team;;O
+BIR; Birmanie; Burma;;O
+CEY; Ceylan; Ceylon;;O
+DAH; Royaume du Dahomey; Dahomey;;O
+GUI; Guyane britannique; British Guiana;;O
+HBR; Honduras britannique; British Honduras;;O
+IHO; Indes Orientales Hollandaises; Dutch East Indies;;O
+IVC; Côte d'Ivoire; Ivory Coast;;O
+KHM; République Khmer; Khmer Republic;;O
+KIT; Royaume d'Italie; Italy;;O
+MAL; Malaysie; Malaysia;;O
+NBO; Bornéo; North Borneo;;O
+NRH; Rhodésie du nord; Northern Rhodesia;;O
+RAU; République Arabe Unie; United Arab Republic;;O
+SAA; Sarre; Saar;;O
+VOL; Haute Volta; Upper Volta;;O
+WSM; Samoa; Western Samoa;;O
+YAR; Yemen du Nord; North Yemen;;O
+YMD; Yemen du Sud; South Yemen;;O
+ZAI; Zaïre; Zaire;;O
