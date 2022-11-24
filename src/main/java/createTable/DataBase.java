@@ -1,47 +1,46 @@
 package createTable;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 import org.mariadb.jdbc.Connection;
 
+import classJO.Athlete;
+import classJO.Epreuve;
+import classJO.Pays;
+import classJO.Sport;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class DataBase {
 
-	public static void main(String args[]) throws SQLException, ClassNotFoundException {
-		ResourceBundle config = ResourceBundle.getBundle("propriete");
-		String driver = config.getString("database.driver");
-		String url = config.getString("database.url");
-		String user = config.getString("database.user");
-		String mdp = config.getString("database.password");
+	public static void main(String args[]) throws SQLException, ClassNotFoundException, IOException 
+	{
 
-		Class.forName(driver);
-
-		Connection connect = (Connection) DriverManager.getConnection(url, user, mdp);
-
-		Statement stmt = connect.createStatement();
+		Statement stmt = connectionDB();
 
 		List<String> createTable = new ArrayList<String>();
 
 		String createAthlete = "CREATE TABLE ATHLETE " + "(id  INTEGER (11) PRIMARY KEY AUTO_INCREMENT,"
-				+ " nom VARCHAR(50), " + "genre CHAR(1), " + "age INTEGER(2)," + "taille INTEGER(3),"
-				+ "poids INTEGER(3)" + ")";
+				+ " nom VARCHAR(50), " + " prenom VARCHAR(50), " + "genre CHAR(1), " + "annee_Naissance INTEGER(4),"
+				+ "taille INTEGER(3)," + "poids INTEGER(3)" + ")";
 
 		createTable.add(createAthlete);
 
 		String createPays = "CREATE TABLE PAYS " + "(id  INTEGER (11) PRIMARY KEY AUTO_INCREMENT,"
-				+ "CIO_Code  INTEGER (11)," + " nom_FR VARCHAR(50), " + " nom_ENG VARCHAR(50), "
-				+ "code_ISO_Alpha3 CHAR(3)," + "obsolète BOOLEAN" + ")";
+				+ "CIO_Code  CHAR (3)," + " nom_FR VARCHAR(50), " + " nom_ENG VARCHAR(50), "
+				+ "code_ISO_Alpha3 CHAR(3)," + "obsolète CHAR(1)" + ")";
 
 		createTable.add(createPays);
 
@@ -56,12 +55,11 @@ public class DataBase {
 		createTable.add(createEpreuve);
 
 		String createEquipe = "CREATE TABLE EQUIPE " + "(id  INTEGER PRIMARY KEY AUTO_INCREMENT," + " nom VARCHAR(50), "
-				+ "CIO_Code_Pays INTEGER(11),"
-				+ "CONSTRAINT FK_EQUIPE_PAYS FOREIGN KEY (CIO_Code_Pays) REFERENCES PAYS(id)" + ")";
+				+ "id_Pays INTEGER(11)," + "CONSTRAINT FK_EQUIPE_PAYS FOREIGN KEY (id_Pays) REFERENCES PAYS(id)" + ")";
 		createTable.add(createEquipe);
 
-		String createCompet = "CREATE TABLE COMPETITION " + "(id  INTEGER PRIMARY KEY AUTO_INCREMENT," + " year YEAR, "
-				+ "saison VARCHAR (5)," + "ville VARCHAR(100)" + ")";
+		String createCompet = "CREATE TABLE COMPETITION " + "(id  INTEGER PRIMARY KEY AUTO_INCREMENT,"
+				+ " edition INTEGER(4), " + "saison VARCHAR (6)," + "ville VARCHAR(100)," + "id_Pays INTEGER(11)" + ")";
 		createTable.add(createCompet);
 
 		String createMedaille = "CREATE TABLE MEDAILLE " + "(id  INTEGER PRIMARY KEY AUTO_INCREMENT,"
@@ -91,21 +89,21 @@ public class DataBase {
 				+ "CONSTRAINT FK_EQUI_ATH_ATH FOREIGN KEY (id_Athlete) REFERENCES ATHLETE(id),"
 				+ "CONSTRAINT PK_EQUI_ATH PRIMARY KEY (id_Equipe, id_Athlete)" + ")";
 		createTable.add(createEquipeAthlet);
-		
+
 		String createSportComp = "CREATE TABLE SPORT_COMPETITION " + "(id_Sport INTEGER(11),"
 				+ "id_Competition INTEGER(11),"
 				+ "CONSTRAINT FK_SPO_COMP_SPO FOREIGN KEY (id_Sport) REFERENCES SPORT(id),"
 				+ "CONSTRAINT FK_SPO_COMP_COMP FOREIGN KEY (id_Competition) REFERENCES COMPETITION(id),"
 				+ "CONSTRAINT PK_SPO_COMP PRIMARY KEY (id_Sport, id_Competition)" + ")";
 		createTable.add(createSportComp);
-		
+
 		String createEpreuvComp = "CREATE TABLE EPREUVE_COMPETITION " + "(id_Epreuve INTEGER(11),"
 				+ "id_Competition INTEGER(11),"
 				+ "CONSTRAINT FK_EPR_COMP_EPR FOREIGN KEY (id_Epreuve) REFERENCES EPREUVE(id),"
 				+ "CONSTRAINT FK_EPR_COMP_COMP FOREIGN KEY (id_Competition) REFERENCES COMPETITION(id),"
 				+ "CONSTRAINT PK_EPR_COMP PRIMARY KEY (id_Epreuve, id_Competition)" + ")";
 		createTable.add(createEpreuvComp);
-		
+
 		stmt.execute("DROP TABLE EPREUVE_COMPETITION");
 		stmt.execute("DROP TABLE SPORT_COMPETITION");
 		stmt.execute("DROP TABLE EQUIPE_ATHLETE");
@@ -119,10 +117,45 @@ public class DataBase {
 		stmt.execute("DROP TABLE PAYS");
 		stmt.execute("DROP TABLE ATHLETE");
 
-		for (String req : createTable) {
+	for (String req : createTable) {
 			stmt.execute(req);
 		}
+	/*	Pays.traiterPays();
+		Epreuve.traiterEpreuve();
+		Sport.traiterSport();
+		Athlete.traiterAth();*/
+		
 
 	}
 
+	public static Statement connectionDB() throws ClassNotFoundException, SQLException 
+	{
+		ResourceBundle config = ResourceBundle.getBundle("propriete");
+		String driver = config.getString("database.driver");
+		String url = config.getString("database.url");
+		String user = config.getString("database.user");
+		String mdp = config.getString("database.password");
+		Class.forName(driver);
+		Connection connect = (Connection) DriverManager.getConnection(url, user, mdp);
+		Statement stmt = connect.createStatement();
+		return stmt;
+	}
+
+	public static List<String> recupFichier(String nomFichier  ) throws IOException 
+	{
+		Path path = Paths.get(".\\src\\main\\resources\\" + nomFichier + ".csv");
+		List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+		lines.remove(0);
+		return lines;
+		
+		
+	}
+	
+	public static EntityManager connectionDBem ()
+	{
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Jeux_Olympiques");
+		EntityManager em = entityManagerFactory.createEntityManager();
+		return em;
+	}
+	
 }
