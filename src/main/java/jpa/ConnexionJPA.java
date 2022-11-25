@@ -28,7 +28,7 @@ public class ConnexionJPA {
 	Sport.traiterSport(em);
 		Epreuve.traiterEpreuve(em);
 		Competition.traiterCompet(em);
-	//	Athlete.recupAth(em);
+		Athlete.recupAth(em);
 	//	Medaille.traiterMedaille(em);
 		transaction.commit();
 	}

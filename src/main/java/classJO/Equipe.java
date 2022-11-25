@@ -36,7 +36,7 @@ public class Equipe {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "nom", length = 50, nullable = false)
+	@Column(name = "nom", length = 100, nullable = false)
 	private String nom;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -58,7 +58,7 @@ public class Equipe {
 	public Equipe() {
 	}
 
-	@SuppressWarnings({ "unlikely-arg-type" })
+	
 	public static void traiterEquipe(EntityManager em) throws ClassNotFoundException, SQLException, IOException {
 		int compteur = 0;
 		List<String> lines = DataBase.recupFichier("athlete_epreuves");
@@ -66,7 +66,7 @@ public class Equipe {
 		String requete = "SELECT * FROM Pays as p where p.CIO_Code=?";
 		
 		for (String l : lines) {
-			l = l.replace("'", "\\'");
+		
 			String[] arrayS = new String[15];
 			for (int i = 0; i < l.split(";").length; i++) {
 				arrayS[i] = l.split(";")[i];
@@ -76,13 +76,17 @@ public class Equipe {
 			String nom = arrayS[6];
 			String pays = arrayS[7];
 			
-			mapEqui.put(nom, pays);
+			
+					mapEqui.put(nom, pays);
 		}
 		
 			Iterator<Entry<String, String>> it = mapEqui.entrySet().iterator();
 			while(it.hasNext())
 			{
 				Map.Entry<String, String> entry = (Entry<String, String>)it.next();
+				
+				System.out.println(entry.getKey());
+				
 				Equipe equipe = new Equipe();
 				equipe.setNom(entry.getKey());
 				@SuppressWarnings("unchecked")
@@ -95,9 +99,11 @@ public class Equipe {
 				equipe.setPays(classPays.get(0));
 				compteur++;
 				System.out.println(compteur);
-				em.persist(equipe);
+				
+				
 				}
-	
+				System.out.println(equipe.getNom());
+				em.persist(equipe);
 			}
 			
 			
