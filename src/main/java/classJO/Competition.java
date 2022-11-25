@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Map.Entry;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -90,7 +86,7 @@ public class Competition {
 		List<String> lines = DataBase.recupFichier("athlete_epreuves");
 		ArrayList<Competition> listComp = new ArrayList<Competition>();
 		HashSet<Competition> setComp = new LinkedHashSet<>();
-		HashMap<Integer, String[]> mapComp = new HashMap<>();
+		
 		int compteur = 0 ;
 		for (String l : lines) {
 		
@@ -104,20 +100,16 @@ public class Competition {
 			String saison = arrayS[10];
 			String ville = arrayS[11];
 			
+			Competition comp = new Competition();
 			
-		
+			comp.setSaison(saison);
+			comp.setVille(ville);
+			comp.setYear(dateJO);
+			
 			String eq = arrayS[6];
 			String sp = arrayS[12];
 			String ep = arrayS[13];
 			ep = ep.replaceFirst(sp, "").trim();
-			String[] infos = new String[5];
-			infos[0] = eq;
-			infos[1] = sp;
-			infos[2] = ep;
-			infos[3] = saison;
-			infos[4] = ville;
-			
-			mapComp.put(dateJO, infos);
 			compteur++;
 			System.out.println(compteur);
 			
@@ -125,31 +117,16 @@ public class Competition {
 			List<Sport> sport = (List<Sport>) em.createNamedQuery("findSportByNom2", Sport.class).setParameter("nomSport", sp).getResultList();
 			List<Epreuve> epreuve = (List<Epreuve>) em.createNamedQuery("findEpreuveByNom2", Epreuve.class).setParameter("ep", ep).getResultList();
 			
-			
-			
-			listComp.add(comp);
-			}
-		
-		Iterator<Entry<Integer, String[]>> it = mapComp.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Integer, String[]> entry = (Entry<Integer, String[]>) it.next();
-			List<Equipe> equipe = (List<Equipe>) em.createNamedQuery("findEquipeByNom2", Equipe.class).setParameter("eq", entry.getValue()[0]).getResultList();
-			List<Sport> sport = (List<Sport>) em.createNamedQuery("findSportByNom2", Sport.class).setParameter("nomSport",entry.getValue()[2]).getResultList();
-			List<Epreuve> epreuve = (List<Epreuve>) em.createNamedQuery("findEpreuveByNom2", Epreuve.class).setParameter("ep", entry.getValue()[3]).getResultList();
-			
-Competition comp = new Competition();
-			
-			comp.setSaison(entry.getValue()[3]);
-			comp.setVille(entry.getValue()[4]);
-			comp.setYear(entry.getKey());
 			comp.setEpreuves(epreuve);
 			comp.setEquipe(equipe);
 			comp.setSports(sport);
 			
+			listComp.add(comp);
 			
 			
-		}
-		
+			
+			
+			}
 		for (Competition c : listComp)
 		{
 			
@@ -160,9 +137,7 @@ Competition comp = new Competition();
 		}
 		listComp.clear();
 		listComp.addAll(setComp);
-		
-		
-		
+	
 		for (Competition c : listComp)
 		{
 			em.persist(c);
