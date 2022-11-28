@@ -131,7 +131,7 @@ public class Medaille {
 			
 			
 			
-			Athlete ath = em.createNamedQuery("findAthByNom", Athlete.class)
+	/*		Athlete ath = em.createNamedQuery("findAthByNom", Athlete.class)
 					.setParameter("nom", nom)
 					.setParameter("prenom", prenom)
 					.setParameter("naissance", naissance)
@@ -141,15 +141,15 @@ public class Medaille {
 			Epreuve epreuve = em.createNamedQuery("findEpreuveByNom", Epreuve.class).setParameter("ep", ep).getSingleResult();
 			Competition compet = em.createNamedQuery("findCompetbyEditionAndVille", Competition.class)
 					.setParameter("ville", ville)
-					.setParameter("edition", annee).getSingleResult();
+					.setParameter("edition", annee).getSingleResult(); */
 			
-			Medaille medaille = new Medaille();
+			Medaille medaille = new Medaille(); 
 			
 			if (med.equals("NA") == false)
 			{
-				medaille.setAthlete(ath);
+		/*		medaille.setAthlete(ath);
 				medaille.setCompetition(compet);
-				medaille.setEpreuve(epreuve);
+				medaille.setEpreuve(epreuve); */
 				medaille.setType(med);
 				em.persist(medaille);
 			}

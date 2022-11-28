@@ -1,6 +1,8 @@
 package classJO;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -31,7 +33,9 @@ import javax.persistence.Table;
 import createTable.DataBase;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "findSportByNom2", query = "SELECT s FROM Sport as s where s.nom_ENG =:nomSport"),
+@NamedQueries({ 
+		@NamedQuery(name = "findCompetById", query = "Select c FROM Competition as c where c.id = :id"),
+		@NamedQuery(name = "findSportByNom2", query = "SELECT s FROM Sport as s where s.nom_ENG =:nomSport"),
 		@NamedQuery(name = "findEquipeByNom2", query = "SELECT e FROM Equipe as e where e.nom= :name"),
 		@NamedQuery(name = "findEpreuveByNom2", query = "SELECT ep FROM Epreuve as ep where ep.nom_ENG=:ep"), })
 @Table(name = "COMPETITION")
@@ -75,7 +79,7 @@ public class Competition {
 		ArrayList<Competition> listComp = new ArrayList<Competition>();
 		HashSet<Competition> setComp = new LinkedHashSet<>();
 		HashSet<String[]> listEqui = new LinkedHashSet<>();
-		HashMap<Integer, String[]> mapEqui = new HashMap<>();
+	
 
 		int compteur = 0;
 		for (String l : lines) {
@@ -107,34 +111,12 @@ public class Competition {
 
 			listEqui.add(infosEqui);
 
-		/*	System.out.println("equipe = " + eq);
-			 Equipe equipe = em.createNamedQuery("findEquipeByNom2",
-			 Equipe.class).setParameter("eq", eq).getSingleResult();
-
-			compteur++;
-
-			mapEqui.put(compteur, infosEqui);
-
-			 List<Sport> sport = (List<Sport>) em.createNamedQuery("findSportByNom2",
-			 Sport.class).setParameter("nomSport", sp).getResultList();
-			 List<Epreuve> epreuve = (List<Epreuve>)
-			 em.createNamedQuery("findEpreuveByNom2", Epreuve.class).setParameter("ep",
-			 ep).getResultList();*/
+		
 
 			listComp.add(comp);
 
 		}
 
-	/*	Iterator<Entry<Integer, String[]>> it = mapEqui.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Integer, String[]> entry = (Entry<Integer, String[]>) it.next();
-			@SuppressWarnings("unchecked")
-			 Equipe equipe = em.createNamedQuery("findEquipeByNom2",
-						 Equipe.class).setParameter("eq", entry.getValue()[1]).getSingleResult();
-			for (Equipe e : classEqui) {
-				System.out.println(e.getNom());
-			}
-*/
 		
 		
 		  for (Competition c : listComp) 
@@ -149,23 +131,130 @@ public class Competition {
 	
 		  
 		  for (Competition c : listComp) { 
-		/*	  for (String e : listEqui) { 
-			  compteur++;
-		  System.out.println(compteur); System.out.println("equipe"+e);
+		
+			
 		  
-		 Equipe equipe = em.createNamedQuery("findEquipeByNom2",
-		  Equipe.class).setParameter("eq", e).getSingleResult();*/
-		  
+		 
+		 
 			  em.persist(c); }
 		  
 			System.out.println("pouet");
 		  }
 		  
 		 
-
+public static void recupEquipe(EntityManager em) throws ClassNotFoundException, SQLException
+{
+	List<Equipe> listEq = new ArrayList<>();
+	for (int i = 1; i <53; i++)
+	{
+		Competition comp = em.createNamedQuery("findCompetById",
+				  Competition.class).setParameter("id", i).getSingleResult();
+		
+		Statement stmt = DataBase.connectionDB();
+		
+		String query ="Select team from donnee_brute where city = \""+comp.getVille()+"\" and year = \""+comp.getYear()+"\"";
+		System.out.println(query);
+		ResultSet rs = stmt.executeQuery(query);
+		HashSet<String> listEquip = new HashSet<String>();
+		
+		while (rs.next())
+		{
+			 String value = rs.getString(1);
+			 listEquip.add(value);
+			 rs.next();
+		}
+		
+		for (String s : listEquip)
+		{
+			Equipe eq =  (Equipe) em.createNamedQuery("findEquipeByNom2", Equipe.class).setParameter("name", s).getSingleResult();
+			listEq.add(eq);
+		}
+		
+		comp.setEquipe(listEq);
+		
+	}
 	
 	
+}
+public static void recupSport(EntityManager em) throws ClassNotFoundException, SQLException
+{
+	List<Sport> listSp = new ArrayList<>();
+	for (int i = 1; i <53; i++)
+	{
+		Competition comp = em.createNamedQuery("findCompetById",
+				  Competition.class).setParameter("id", i).getSingleResult();
+		
+		Statement stmt = DataBase.connectionDB();
+		
+		String query ="Select sport from donnee_brute where city = \""+comp.getVille()+"\" and year = \""+comp.getYear()+"\"";
+		System.out.println(query);
+		ResultSet rs = stmt.executeQuery(query);
+		
+		
+		
+		HashSet<String> listSport = new HashSet<String>();
+		
+		while (rs.next())
+		{
+			 String value = rs.getString(1);
+			 listSport.add(value);
+			 rs.next();
+		}
+		
+		for (String s : listSport)
+		{
+			Sport sp =  (Sport) em.createNamedQuery("findSportByNom2", Sport.class).setParameter("nomSport", s).getSingleResult();
+			listSp.add(sp);
+			System.out.println(sp.getNom_FR());
+		}
+	
+		comp.setSports(listSp);
+		
+	}
+}
+	
 
+public static void recupEpreuve(EntityManager em) throws ClassNotFoundException, SQLException
+{
+	List<Epreuve> listEpreuve = new ArrayList<>();
+	for (int i = 1; i <53; i++)
+	{
+		Competition comp = em.createNamedQuery("findCompetById",
+				  Competition.class).setParameter("id", i).getSingleResult();
+		
+		Statement stmt = DataBase.connectionDB();
+		
+		String query ="Select event, sport from donnee_brute where city = \""+comp.getVille()+"\" and year = \""+comp.getYear()+"\"";
+		System.out.println(query);
+		ResultSet rs = stmt.executeQuery(query);
+		
+		
+		
+		HashSet<String> listEp = new HashSet<String>();
+		
+		while (rs.next())
+		{
+			 String ep = rs.getString(1);
+			 String sp = rs.getString(2);
+			 
+			 ep = ep.replaceFirst(sp, "").trim();
+				
+			 
+			 listEp.add(ep);
+			 rs.next();
+		}
+		
+		for (String s : listEp)
+		{
+			Epreuve sp =  (Epreuve) em.createNamedQuery("findEpreuveByNom2", Epreuve.class).setParameter("ep", s).getSingleResult();
+			listEpreuve.add(sp);
+			System.out.println(sp.getNom_FR());
+		}
+	
+		comp.setEpreuves(listEpreuve);
+		
+	}
+}
 
 	public List<Epreuve> getEpreuves() {
 		return epreuves;

@@ -7,12 +7,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import classJO.Athlete;
 import classJO.Competition;
+import classJO.DonneeBrut;
 import classJO.Epreuve;
 import classJO.Equipe;
 import classJO.Medaille;
 import classJO.Pays;
 import classJO.Sport;
 import createTable.DataBase;
+
 
 public class ConnexionJPA {
 
@@ -22,14 +24,18 @@ public class ConnexionJPA {
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
 
-	
-		Pays.traiterPays(em);
-	Equipe.traiterEquipe(em);
-	Sport.traiterSport(em);
-		Epreuve.traiterEpreuve(em);
-		Competition.traiterCompet(em);
-		Athlete.recupAth(em);
+	//  DonneeBrut.traiterCompet(em);
+	//	Pays.traiterPays(em);
+	//	Equipe.traiterEquipe(em);
+	//	Sport.traiterSport(em);
+	//	Epreuve.traiterEpreuve(em);
+	//	Competition.traiterCompet(em);
+	//	Athlete.recupAth(em);
 	//	Medaille.traiterMedaille(em);
+	//	Competition.recupEquipe(em);
+	//	Competition.recupSport(em);
+	//	Competition.recupEpreuve(em);
+		Athlete.recupEquipe(em);
 		transaction.commit();
 	}
 

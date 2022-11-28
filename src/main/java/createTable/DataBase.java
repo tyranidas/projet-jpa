@@ -104,7 +104,7 @@ public class DataBase {
 				+ "CONSTRAINT PK_EPR_COMP PRIMARY KEY (id_Epreuve, id_Competition)" + ")";
 		createTable.add(createEpreuvComp);
 
-		stmt.execute("DROP TABLE EPREUVE_COMPETITION");
+	/*	stmt.execute("DROP TABLE EPREUVE_COMPETITION");
 		stmt.execute("DROP TABLE SPORT_COMPETITION");
 		stmt.execute("DROP TABLE EQUIPE_ATHLETE");
 		stmt.execute("DROP TABLE EQUIPE_COMPETITION");
@@ -115,7 +115,7 @@ public class DataBase {
 		stmt.execute("DROP TABLE EPREUVE");
 		stmt.execute("DROP TABLE SPORT");
 		stmt.execute("DROP TABLE PAYS");
-		stmt.execute("DROP TABLE ATHLETE");
+		stmt.execute("DROP TABLE ATHLETE");*/
 
 	for (String req : createTable) {
 			stmt.execute(req);
@@ -127,6 +127,20 @@ public class DataBase {
 		
 
 	}
+	
+	public static void createDBBRute() throws ClassNotFoundException, SQLException, IOException
+	{
+		connectionDB();
+		
+		recupFichier("athlete_epreuves");
+		
+		String createAthlete = "CREATE TABLE DB " + "(id  INTEGER (11) PRIMARY KEY AUTO_INCREMENT,"
+				+ " id"
+				+ " nom VARCHAR(50), " + " prenom VARCHAR(50), " + "genre CHAR(1), " + "annee_Naissance INTEGER(4),"
+				+ "taille INTEGER(3)," + "poids INTEGER(3)" + ")";
+		
+	}
+	
 
 	public static Statement connectionDB() throws ClassNotFoundException, SQLException 
 	{

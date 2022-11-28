@@ -1,7 +1,11 @@
 package classJO;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +32,7 @@ import createTable.DataBase;
 
 @Entity
 @NamedQueries({
+	@NamedQuery(name="findAllAthlete", query = "Select a FROM Athlete as a"),
 	@NamedQuery(name="findPaysByName", query = "SELECT p FROM Pays as p where p.cio_Code =:pays"),
 	@NamedQuery(name="findEquipeByName", query = "SELECT e FROM Equipe as e where e.nom=:eq"),
 })
@@ -169,11 +174,11 @@ public final class Athlete {
 			athlete.setPoids(poids);
 			athlete.setTaille(taille);
 			
-			List<Pays> pays = (List<Pays>) em.createNamedQuery("findPaysByName", Pays.class).setParameter("pays", paysCode).getResultList();
+	/*		List<Pays> pays = (List<Pays>) em.createNamedQuery("findPaysByName", Pays.class).setParameter("pays", paysCode).getResultList();
 			List<Equipe> equipe = (List<Equipe>) em.createNamedQuery("findEquipeByName", Equipe.class).setParameter("eq", team).getResultList();
 			
 			athlete.setEquipe(equipe);
-			athlete.setPays(pays);
+			athlete.setPays(pays);*/
 			
 			listAth.add(athlete);
 			
@@ -203,7 +208,46 @@ public final class Athlete {
 	}
 	
 	
+	 
+public static void recupEquipe(EntityManager em) throws ClassNotFoundException, SQLException
+{
+List<Equipe> listEq = new ArrayList<>();
+
+List<Athlete> allAth = em.createNamedQuery("findAllAthlete", Athlete.class).getResultList();
+
+
+
+
+for (int i = 1; i <allAth.size(); i++)
+{
 	
+	
+	Statement stmt = DataBase.connectionDB();
+	
+	String query ="Select team from donnee_brute where id = "+allAth.get(i).id;
+	System.out.println(query);
+	ResultSet rs = stmt.executeQuery(query);
+	HashSet<String> listEquip = new HashSet<String>();
+	
+	while (rs.next())
+	{
+		 String value = rs.getString(1);
+		 listEquip.add(value);
+		 rs.next();
+	}
+	
+	for (String s : listEquip)
+	{
+		Equipe eq =  (Equipe) em.createNamedQuery("findEquipeByName", Equipe.class).setParameter("eq", s).getSingleResult();
+		listEq.add(eq);
+	}
+	
+	allAth.get(i).setEquipe(listEq);
+	
+}
+
+
+}
 
 
 
