@@ -35,7 +35,7 @@ public class ConnexionJPA {
 	//	Competition.recupEquipe(em);
 	//	Competition.recupSport(em);
 	//	Competition.recupEpreuve(em);
-		Athlete.recupEquipe(em);
+		Equipe.recupAth(em);
 		transaction.commit();
 	}
 

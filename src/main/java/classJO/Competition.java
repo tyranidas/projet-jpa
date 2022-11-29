@@ -160,6 +160,7 @@ public static void recupEquipe(EntityManager em) throws ClassNotFoundException, 
 		while (rs.next())
 		{
 			 String value = rs.getString(1);
+			 System.out.println(value);
 			 listEquip.add(value);
 			 rs.next();
 		}
@@ -168,6 +169,7 @@ public static void recupEquipe(EntityManager em) throws ClassNotFoundException, 
 		{
 			Equipe eq =  (Equipe) em.createNamedQuery("findEquipeByNom2", Equipe.class).setParameter("name", s).getSingleResult();
 			listEq.add(eq);
+			
 		}
 		
 		comp.setEquipe(listEq);

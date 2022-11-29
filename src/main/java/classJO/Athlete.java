@@ -32,9 +32,9 @@ import createTable.DataBase;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name="findAllAthlete", query = "Select a FROM Athlete as a"),
+
 	@NamedQuery(name="findPaysByName", query = "SELECT p FROM Pays as p where p.cio_Code =:pays"),
-	@NamedQuery(name="findEquipeByName", query = "SELECT e FROM Equipe as e where e.nom=:eq"),
+	
 })
 @Table(name="ATHLETE")
 public final class Athlete {
@@ -57,10 +57,10 @@ public final class Athlete {
 	private Integer annee_Naissance;
 	
 	@Column (name="taille")	
-	private Integer taille;
+	private Double taille;
 	
 	@Column (name="poids")	
-	private Integer poids;
+	private Double poids;
 	
 	@OneToMany(mappedBy = "athlete")
 	private List<Medaille> medaille;
@@ -105,8 +105,8 @@ public final class Athlete {
 
 			Integer intAge = 0;
 			Integer naissance  = 0;
-			Integer taille = 0;
-			Integer poids = 0;
+			double taille = 0;
+			double poids = 0;
 			
 			
 			
@@ -125,14 +125,16 @@ public final class Athlete {
 			naissance  = DateJO - intAge;		
 			}
 			
-			if (arrayS[4].matches("-?\\d+"))
+			if (!arrayS[4].equals("NA"))
 			{
-				taille = Integer.parseInt(arrayS[4]);
+			
+				taille = Double.parseDouble(arrayS[4]);
 			}
 			
-			if (arrayS[5].matches("-?\\d+"))
+			if (!arrayS[5].equals("NA"))
 			{
-			poids = Integer.parseInt(arrayS[5]);
+				
+			poids = Double.parseDouble(arrayS[5]);
 		
 			}
 			
@@ -208,46 +210,7 @@ public final class Athlete {
 	}
 	
 	
-	 
-public static void recupEquipe(EntityManager em) throws ClassNotFoundException, SQLException
-{
-List<Equipe> listEq = new ArrayList<>();
 
-List<Athlete> allAth = em.createNamedQuery("findAllAthlete", Athlete.class).getResultList();
-
-
-
-
-for (int i = 1; i <allAth.size(); i++)
-{
-	
-	
-	Statement stmt = DataBase.connectionDB();
-	
-	String query ="Select team from donnee_brute where id = "+allAth.get(i).id;
-	System.out.println(query);
-	ResultSet rs = stmt.executeQuery(query);
-	HashSet<String> listEquip = new HashSet<String>();
-	
-	while (rs.next())
-	{
-		 String value = rs.getString(1);
-		 listEquip.add(value);
-		 rs.next();
-	}
-	
-	for (String s : listEquip)
-	{
-		Equipe eq =  (Equipe) em.createNamedQuery("findEquipeByName", Equipe.class).setParameter("eq", s).getSingleResult();
-		listEq.add(eq);
-	}
-	
-	allAth.get(i).setEquipe(listEq);
-	
-}
-
-
-}
 
 
 
@@ -340,19 +303,19 @@ for (int i = 1; i <allAth.size(); i++)
 		this.annee_Naissance = annee_Naissance;
 	}
 
-	public Integer getTaille() {
+	public Double getTaille() {
 		return taille;
 	}
 
-	public void setTaille(Integer taille) {
+	public void setTaille(Double taille) {
 		this.taille = taille;
 	}
 
-	public Integer getPoids() {
+	public Double getPoids() {
 		return poids;
 	}
 
-	public void setPoids(Integer poids) {
+	public void setPoids(Double poids) {
 		this.poids = poids;
 	}
 	
