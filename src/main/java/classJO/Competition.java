@@ -78,66 +78,33 @@ public class Competition {
 		List<String> lines = DataBase.recupFichier("athlete_epreuves");
 		ArrayList<Competition> listComp = new ArrayList<Competition>();
 		HashSet<Competition> setComp = new LinkedHashSet<>();
-		HashSet<String[]> listEqui = new LinkedHashSet<>();
 	
-
-		int compteur = 0;
 		for (String l : lines) {
 
 			String[] arrayS = new String[15];
 			for (int i = 0; i < l.split(";").length; i++) {
 				arrayS[i] = l.split(";")[i];
-
 			}
 			Integer dateJO = Integer.parseInt(arrayS[9]);
-
 			String saison = arrayS[10];
 			String ville = arrayS[11];
-
 			Competition comp = new Competition();
-
 			comp.setSaison(saison);
 			comp.setVille(ville);
 			comp.setYear(dateJO);
-
-			String eq = arrayS[6];
-			String sp = arrayS[12];
-			String ep = arrayS[13];
-			ep = ep.replaceFirst(sp, "").trim();
-
-			String[] infosEqui = new String[2];
-			infosEqui[0] = ville;
-			infosEqui[1] = eq;
-
-			listEqui.add(infosEqui);
-
-		
-
 			listComp.add(comp);
-
 		}
-
-		
 		
 		  for (Competition c : listComp) 
 		  {
-		  
 		  if (c.equals(listComp) == false) 
 		  { setComp.add(c); } 
 		  } 
-		  
 		  listComp.clear();
 		  listComp.addAll(setComp);
-	
 		  
 		  for (Competition c : listComp) { 
-		
-			
-		  
-		 
-		 
 			  em.persist(c); }
-		  
 			System.out.println("pouet");
 		  }
 		  
@@ -173,9 +140,7 @@ public static void recupEquipe(EntityManager em) throws ClassNotFoundException, 
 			listEq.add(eq);
 			
 		}
-		
 		comp.setEquipe(listEq);
-		
 	}
 	
 	
@@ -188,15 +153,9 @@ public static void recupSport(EntityManager em) throws ClassNotFoundException, S
 		List<Sport> listSp = new ArrayList<>();
 		Competition comp = em.createNamedQuery("findCompetById",
 				  Competition.class).setParameter("id", i).getSingleResult();
-		
 		Statement stmt = DataBase.connectionDB();
-		
 		String query ="Select sport from donnee_brute where city = \""+comp.getVille()+"\" and year = \""+comp.getYear()+"\"";
-		System.out.println(query);
 		ResultSet rs = stmt.executeQuery(query);
-		
-		
-		
 		HashSet<String> listSport = new HashSet<String>();
 		
 		while (rs.next())
@@ -212,9 +171,7 @@ public static void recupSport(EntityManager em) throws ClassNotFoundException, S
 			listSp.add(sp);
 			System.out.println(sp.getNom_FR());
 		}
-	
 		comp.setSports(listSp);
-		
 	}
 }
 	
@@ -227,15 +184,9 @@ public static void recupEpreuve(EntityManager em) throws ClassNotFoundException,
 		List<Epreuve> listEpreuve = new ArrayList<>();
 		Competition comp = em.createNamedQuery("findCompetById",
 				  Competition.class).setParameter("id", i).getSingleResult();
-		
 		Statement stmt = DataBase.connectionDB();
-		
 		String query ="Select event, sport from donnee_brute where city = \""+comp.getVille()+"\" and year = \""+comp.getYear()+"\"";
-		System.out.println(query);
 		ResultSet rs = stmt.executeQuery(query);
-		
-		
-		
 		HashSet<String> listEp = new HashSet<String>();
 		
 		while (rs.next())
@@ -244,8 +195,6 @@ public static void recupEpreuve(EntityManager em) throws ClassNotFoundException,
 			 String sp = rs.getString(2);
 			 
 			 ep = ep.replaceFirst(sp, "").trim();
-				
-			 
 			 listEp.add(ep);
 			 rs.next();
 		}
@@ -258,7 +207,6 @@ public static void recupEpreuve(EntityManager em) throws ClassNotFoundException,
 		}
 	
 		comp.setEpreuves(listEpreuve);
-		
 	}
 }
 

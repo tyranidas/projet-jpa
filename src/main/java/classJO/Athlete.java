@@ -90,7 +90,6 @@ public final class Athlete {
 
 	public Athlete()
 	{
-		
 	}
 	
 	@SuppressWarnings("unlikely-arg-type")
@@ -101,94 +100,9 @@ public final class Athlete {
 		Set<Athlete> setAth = new LinkedHashSet<>();
 			
 		for (String l : lines) {
-			
-
-			Integer intAge = 0;
-			Integer naissance  = 0;
-			double taille = 0;
-			double poids = 0;
-			
-			
-			
-			String[] arrayS = new String[15];
-			for (int i = 0; i < l.split(";").length; i++) {
-				arrayS[i] = l.split(";")[i];
-				
-			}
-			
-			String genre = arrayS[2];
-			
-			Integer DateJO = Integer.parseInt(arrayS[9]);
-			if (arrayS[3].matches("-?\\d+"))
-			{
-			intAge = Integer.parseInt(arrayS[3]);
-			naissance  = DateJO - intAge;		
-			}
-			
-			if (!arrayS[4].equals("NA"))
-			{
-				arrayS[4] = arrayS[4].replace(".", ".5");
-				taille = Double.parseDouble(arrayS[4]);
-			}
-			
-			if (!arrayS[5].equals("NA"))
-			{
-				arrayS[5] = arrayS[5].replace(".", ".1");
-			poids = Double.parseDouble(arrayS[5]);
-		
-			}
-			
-			String nom = arrayS[1];
-			nom = nom.trim();
-		
-			int lastParentheseO = nom.lastIndexOf("(");
-			
-			if (lastParentheseO >0)
-			{
-			nom = nom.substring(0, lastParentheseO);
-			}
-			
-			nom = nom.trim();
-			
-			String prenom = null;
-			
-			int lastSpace = nom.lastIndexOf(" ");
-			if (lastSpace > 0)
-			{
-				prenom = nom.substring(0, lastSpace);
-		//		prenom = prenom.replace("'", "\\'");
-				nom =  nom.substring(lastSpace);
-			
-			}
-			
-			nom = nom.trim();
-			
-			String paysCode = arrayS[7];
-			String team = arrayS[6];
-			
-			
-			Athlete athlete = new Athlete ();
-			
-			athlete.setAnnee_Naissance(naissance);
-			athlete.setGenre(genre);
-			athlete.setNom(nom);
-			athlete.setPrenom(prenom);
-			athlete.setPoids(poids);
-			athlete.setTaille(taille);
-			
-	/*		List<Pays> pays = (List<Pays>) em.createNamedQuery("findPaysByName", Pays.class).setParameter("pays", paysCode).getResultList();
-			List<Equipe> equipe = (List<Equipe>) em.createNamedQuery("findEquipeByName", Equipe.class).setParameter("eq", team).getResultList();
-			
-			athlete.setEquipe(equipe);
-			athlete.setPays(pays);*/
-			
+			Athlete athlete = createOneAth(l);
 			listAth.add(athlete);
-			
-			
 		}
-		
-		
-
 		for (Athlete a : listAth)
 		{
 			if (a.equals(listAth)==false)
@@ -196,17 +110,68 @@ public final class Athlete {
 				setAth.add(a);
 			}
 		}
-		
 		listAth.clear();
 		listAth.addAll(setAth);
 		for (Athlete a : listAth)
 	{
-			if (a.getPrenom() == "Ould Lamine")
-			{
-				System.out.println("POUET POUET POUET");
-			}
 		em.persist(a);
 	}
+	}
+	
+	public static Athlete createOneAth (String l) {
+		
+		String[] arrayS = new String[15];
+		for (int i = 0; i < l.split(";").length; i++) {
+			arrayS[i] = l.split(";")[i];
+			
+		}
+		Integer intAge = 0;
+		Integer naissance  = 0;
+		double taille = 0;
+		double poids = 0;
+		String genre = arrayS[2];
+		Integer DateJO = Integer.parseInt(arrayS[9]);
+		if (arrayS[3].matches("-?\\d+"))
+		{
+		intAge = Integer.parseInt(arrayS[3]);
+		naissance  = DateJO - intAge;		
+		}
+		if (!arrayS[4].equals("NA"))
+		{
+			arrayS[4] = arrayS[4].replace(".", ".5");
+			taille = Double.parseDouble(arrayS[4]);
+		}
+		if (!arrayS[5].equals("NA"))
+		{
+			arrayS[5] = arrayS[5].replace(".", ".1");
+			poids = Double.parseDouble(arrayS[5]);
+		}
+		String nom = arrayS[1];
+		nom = nom.trim();
+		int lastParentheseO = nom.lastIndexOf("(");
+		if (lastParentheseO >0)
+		{
+		nom = nom.substring(0, lastParentheseO);
+		}
+		nom = nom.trim();
+		String prenom = null;
+		int lastSpace = nom.lastIndexOf(" ");
+		if (lastSpace > 0)
+		{
+			prenom = nom.substring(0, lastSpace);
+			nom =  nom.substring(lastSpace);
+		}
+		nom = nom.trim();
+		
+		Athlete athlete = new Athlete ();
+		athlete.setAnnee_Naissance(naissance);
+		athlete.setGenre(genre);
+		athlete.setNom(nom);
+		athlete.setPrenom(prenom);
+		athlete.setPoids(poids);
+		athlete.setTaille(taille);
+		
+		return athlete;
 	}
 	
 	
@@ -219,20 +184,15 @@ public final class Athlete {
 		while (rs.next()) {
 			String[] info = new String[7];
 			String nom = rs.getString(1);
-			
 			nom = nom.trim();
 
 			int lastParentheseO = nom.lastIndexOf("(");
 
 			if (lastParentheseO > 0) {
 				nom = nom.substring(0, lastParentheseO);
-			
 			}
-			
 			nom = nom.trim();
-			
 			String prenom = null;
-
 			int lastSpace = nom.lastIndexOf(" ");
 			if (lastSpace > 0) {
 				prenom = nom.substring(0, lastSpace);
@@ -258,15 +218,12 @@ public final class Athlete {
 			{
 				s[2] = s[2].replace(".", ".0");
 				taille = Double.parseDouble(s[2]);
-			
 			}
-			
 			if (!s[3].equals("NA"))
 			{
 				s[3] = s[3].replace(".", ".0");
 				System.out.println(s[3]);
 			poids = Double.parseDouble(s[3]);
-		
 			}
 			Integer naissance = 0;
 			Integer DateJO = Integer.parseInt(s[6]);
@@ -298,15 +255,9 @@ public final class Athlete {
 			
 			listAth.clear();
 			listAth.addAll(setAth);
-			
 		}
 		return listAth;
 	}
-
-
-
-
-
 
 	public List<Equipe> getEquipe() {
 		return equipe;

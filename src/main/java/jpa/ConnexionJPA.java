@@ -24,14 +24,14 @@ public class ConnexionJPA {
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
 
-	//  DonneeBrut.traiterCompet(em);
+	//  DonneeBrut.traiterDDB(em);
 	//	Pays.traiterPays(em);
 	//	Equipe.traiterEquipe(em);
 	//	Sport.traiterSport(em);
 	//	Epreuve.traiterEpreuve(em);
 	//	Competition.traiterCompet(em);
 	//	Athlete.recupAth(em);
-		Medaille.traiterMedaille(em);
+	//	Medaille.traiterMedaille(em);
 	//	Competition.recupEquipe(em);
 	//	Competition.recupSport(em);
 	//	Competition.recupEpreuve(em);

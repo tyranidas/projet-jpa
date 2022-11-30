@@ -16,8 +16,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -120,28 +122,8 @@ public class DataBase {
 	for (String req : createTable) {
 			stmt.execute(req);
 		}
-	/*	Pays.traiterPays();
-		Epreuve.traiterEpreuve();
-		Sport.traiterSport();
-		Athlete.traiterAth();*/
-		
-
 	}
-	
-	public static void createDBBRute() throws ClassNotFoundException, SQLException, IOException
-	{
-		connectionDB();
 		
-		recupFichier("athlete_epreuves");
-		
-		String createAthlete = "CREATE TABLE DB " + "(id  INTEGER (11) PRIMARY KEY AUTO_INCREMENT,"
-				+ " id"
-				+ " nom VARCHAR(50), " + " prenom VARCHAR(50), " + "genre CHAR(1), " + "annee_Naissance INTEGER(4),"
-				+ "taille INTEGER(3)," + "poids INTEGER(3)" + ")";
-		
-	}
-	
-
 	public static Statement connectionDB() throws ClassNotFoundException, SQLException 
 	{
 		ResourceBundle config = ResourceBundle.getBundle("propriete");
@@ -161,8 +143,6 @@ public class DataBase {
 		List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
 		lines.remove(0);
 		return lines;
-		
-		
 	}
 	
 	public static EntityManager connectionDBem ()
@@ -171,5 +151,6 @@ public class DataBase {
 		EntityManager em = entityManagerFactory.createEntityManager();
 		return em;
 	}
+	
 	
 }

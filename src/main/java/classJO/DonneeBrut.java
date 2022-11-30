@@ -66,17 +66,14 @@ public class DonneeBrut {
 	
 
 
-public static void traiterCompet(EntityManager em) throws ClassNotFoundException, SQLException, IOException {
+public static void traiterDDB(EntityManager em) throws ClassNotFoundException, SQLException, IOException {
 	List<String> lines = DataBase.recupFichier("athlete_epreuves");
 	for (String l : lines) {
 
 		String[] arrayS = new String[15];
 		for (int i = 0; i < l.split(";").length; i++) {
 			arrayS[i] = l.split(";")[i];
-
 		}
-		
-		
 		DonneeBrut bdd = new DonneeBrut();
 		
 		bdd.setName(arrayS[1]);
@@ -93,7 +90,6 @@ public static void traiterCompet(EntityManager em) throws ClassNotFoundException
 		bdd.setSport(arrayS[12]);
 		bdd.setEpreuve(arrayS[13]);
 		bdd.setMed(arrayS[14]);
-		
 		 em.persist(bdd); 
 	}
 }

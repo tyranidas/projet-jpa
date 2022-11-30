@@ -34,22 +34,13 @@ import createTable.DataBase;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "findAllEquipe", query = "Select e FROM Equipe as e"),
-		@NamedQuery(name = "findAthByNomForEq", 
-		query = "SELECT a FROM Athlete as a where a.nom =:nom "
-					+ " and a.prenom=:prenom " 
-				+ "and a.taille = :taille " 
-				+ "and a.poids = :poids "
-				+ "and a.genre = :genre "
-				+ "and a.annee_Naissance = :age"), 
-				
-@NamedQuery(name = "findAthByNomForEqIfNull", 
-query = "SELECT a FROM Athlete as a where a.nom =:nom "
-			+ " and  a.prenom IS NULL " 
-		+ "and a.taille = :taille " 
-		+ "and a.poids = :poids "
-		+ "and a.genre = :genre "
-		+ "and a.annee_Naissance = :age") 
-		})
+		@NamedQuery(name = "findAthByNomForEq", query = "SELECT a FROM Athlete as a where a.nom =:nom "
+				+ " and a.prenom=:prenom " + "and a.taille = :taille " + "and a.poids = :poids "
+				+ "and a.genre = :genre " + "and a.annee_Naissance = :age"),
+
+		@NamedQuery(name = "findAthByNomForEqIfNull", query = "SELECT a FROM Athlete as a where a.nom =:nom "
+				+ " and  a.prenom IS NULL " + "and a.taille = :taille " + "and a.poids = :poids "
+				+ "and a.genre = :genre " + "and a.annee_Naissance = :age") })
 @Table(name = "Equipe")
 
 public class Equipe {
@@ -66,8 +57,7 @@ public class Equipe {
 	private Pays equiPays;
 
 	@ManyToMany
-	@JoinTable(name = "EQUIPE_ATHLETE", joinColumns = @JoinColumn(name = "id_Equipe", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "id_Athlete", referencedColumnName = "id"))
+	@JoinTable(name = "EQUIPE_ATHLETE", joinColumns = @JoinColumn(name = "id_Equipe", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_Athlete", referencedColumnName = "id"))
 	private List<Athlete> athlete;
 
 	@ManyToMany
@@ -78,33 +68,26 @@ public class Equipe {
 	}
 
 	public static void traiterEquipe(EntityManager em) throws ClassNotFoundException, SQLException, IOException {
-		int compteur = 0;
 		List<String> lines = DataBase.recupFichier("athlete_epreuves");
 		HashMap<String, String> mapEqui = new HashMap<>();
-		String requete = "SELECT * FROM Pays as p where p.CIO_Code=?";
+	
 
 		for (String l : lines) {
 
 			String[] arrayS = new String[15];
 			for (int i = 0; i < l.split(";").length; i++) {
 				arrayS[i] = l.split(";")[i];
-
 			}
-
 			String nom = arrayS[6];
 			nom = nom.replace("\"", "");
-		
 			String pays = arrayS[7];
-
 			mapEqui.put(nom, pays);
 		}
 
 		Iterator<Entry<String, String>> it = mapEqui.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, String> entry = (Entry<String, String>) it.next();
-
-			System.out.println(entry.getKey());
-
+			String requete = "SELECT * FROM Pays as p where p.CIO_Code=?";
 			Equipe equipe = new Equipe();
 			equipe.setNom(entry.getKey());
 			@SuppressWarnings("unchecked")
@@ -112,47 +95,28 @@ public class Equipe {
 					.getResultList();
 			;
 			if (classPays.size() > 0) {
-				System.out.println(classPays.get(0).getNom_FR());
-
 				equipe.setPays(classPays.get(0));
-				compteur++;
-				System.out.println(compteur);
-
 			}
-			System.out.println(equipe.getNom());
 			em.persist(equipe);
 		}
-
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	public static void recupAth(EntityManager em) throws ClassNotFoundException, SQLException {
-		
 
 		List<Equipe> allEq = em.createNamedQuery("findAllEquipe", Equipe.class).getResultList();
 
-		for (int i = 0; i < 100 ; i++) {
+		for (int i = 0; i < 100; i++) {
 //allEq.size()
-			
-		
 			Statement stmt = DataBase.connectionDB();
 			System.out.println(allEq.get(i).getNom());
-			String query = "Select name, height, weight, sex, age, year from donnee_brute where team = \"" + allEq.get(i).getNom()+"\"";
+			String query = "Select name, height, weight, sex, age, year from donnee_brute where team = \""
+					+ allEq.get(i).getNom() + "\"";
 			ResultSet rs = stmt.executeQuery(query);
-			
 			List<Athlete> listAth = Athlete.findAth(rs, em);
-
-		
-
 			allEq.get(i).setAthlete(listAth);
-
 		}
-
 	}
 
-	
-	
-	
 	public List<Athlete> getAthlete() {
 		return athlete;
 	}
