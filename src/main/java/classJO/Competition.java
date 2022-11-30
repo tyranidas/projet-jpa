@@ -144,9 +144,10 @@ public class Competition {
 		 
 public static void recupEquipe(EntityManager em) throws ClassNotFoundException, SQLException
 {
-	List<Equipe> listEq = new ArrayList<>();
+	
 	for (int i = 1; i <53; i++)
 	{
+		List<Equipe> listEq = new ArrayList<>();
 		Competition comp = em.createNamedQuery("findCompetById",
 				  Competition.class).setParameter("id", i).getSingleResult();
 		
@@ -161,6 +162,7 @@ public static void recupEquipe(EntityManager em) throws ClassNotFoundException, 
 		{
 			 String value = rs.getString(1);
 			 System.out.println(value);
+			 value = value.replace("\"", "");
 			 listEquip.add(value);
 			 rs.next();
 		}
@@ -180,9 +182,10 @@ public static void recupEquipe(EntityManager em) throws ClassNotFoundException, 
 }
 public static void recupSport(EntityManager em) throws ClassNotFoundException, SQLException
 {
-	List<Sport> listSp = new ArrayList<>();
+	
 	for (int i = 1; i <53; i++)
 	{
+		List<Sport> listSp = new ArrayList<>();
 		Competition comp = em.createNamedQuery("findCompetById",
 				  Competition.class).setParameter("id", i).getSingleResult();
 		
@@ -218,9 +221,10 @@ public static void recupSport(EntityManager em) throws ClassNotFoundException, S
 
 public static void recupEpreuve(EntityManager em) throws ClassNotFoundException, SQLException
 {
-	List<Epreuve> listEpreuve = new ArrayList<>();
+	
 	for (int i = 1; i <53; i++)
 	{
+		List<Epreuve> listEpreuve = new ArrayList<>();
 		Competition comp = em.createNamedQuery("findCompetById",
 				  Competition.class).setParameter("id", i).getSingleResult();
 		

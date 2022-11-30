@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -24,11 +25,33 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
+import createTable.DataBase;
+
 @Entity
+@NamedQueries({ @NamedQuery(name = "findAllPays", query = "Select p FROM Pays as p"),
+	@NamedQuery(name = "findAthByNomForPays", 
+	query = "SELECT a FROM Athlete as a where a.nom =:nom "
+				+ " and a.prenom=:prenom " 
+			+ "and a.taille = :taille " 
+			+ "and a.poids = :poids "
+			+ "and a.genre = :genre "
+			+ "and a.annee_Naissance = :age"), 
+			
+@NamedQuery(name = "findAthByNomForPaysIfNull", 
+query = "SELECT a FROM Athlete as a where a.nom =:nom "
+		+ " and  a.prenom IS NULL " 
+	+ "and a.taille = :taille " 
+	+ "and a.poids = :poids "
+	+ "and a.genre = :genre "
+	+ "and a.annee_Naissance = :age") 
+	})
+
 @Table(name="PAYS")
 public class Pays {
 
@@ -134,19 +157,37 @@ public class Pays {
 				setPays.add(p);
 			}
 		}
-		
 		listPays.clear();
 		listPays.addAll(setPays);
-		
 		for (Pays p : listPays)
 		{
 			em.persist(p);
 		}
-		
-		
-	
-	
 	} 
+	
+
+	public static void recupAth(EntityManager em) throws ClassNotFoundException, SQLException {
+	
+
+		List<Pays> allPays = em.createNamedQuery("findAllPays", Pays.class).getResultList();
+
+		for (int i = 0; i < 100 ; i++) 
+			//allPays.size()
+		{
+			
+			Statement stmt = DataBase.connectionDB();
+		
+			String query = "Select name, height, weight, sex, age, year from donnee_brute where noc = \"" + allPays.get(i).getCio_Code()+"\"";
+			ResultSet rs = stmt.executeQuery(query);
+			
+			List<Athlete> listAth = Athlete.findAth(rs, em);
+			
+			allPays.get(i).setAthlete(listAth);
+
+			
+		}
+	}	
+
 
 	public Integer getId() {
 		return id;

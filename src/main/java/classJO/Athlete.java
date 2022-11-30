@@ -127,13 +127,13 @@ public final class Athlete {
 			
 			if (!arrayS[4].equals("NA"))
 			{
-			
+				arrayS[4] = arrayS[4].replace(".", ".5");
 				taille = Double.parseDouble(arrayS[4]);
 			}
 			
 			if (!arrayS[5].equals("NA"))
 			{
-				
+				arrayS[5] = arrayS[5].replace(".", ".1");
 			poids = Double.parseDouble(arrayS[5]);
 		
 			}
@@ -210,7 +210,98 @@ public final class Athlete {
 	}
 	
 	
+	@SuppressWarnings("unlikely-arg-type")
+	public static List<Athlete> findAth(ResultSet rs, EntityManager em) throws SQLException
+	{
+		List<Athlete> listAth = new ArrayList<>();
+		HashSet<Athlete> setAth = new LinkedHashSet<>();
+		HashSet<String[]> listInfos = new HashSet<String[]>();
+		while (rs.next()) {
+			String[] info = new String[7];
+			String nom = rs.getString(1);
+			
+			nom = nom.trim();
 
+			int lastParentheseO = nom.lastIndexOf("(");
+
+			if (lastParentheseO > 0) {
+				nom = nom.substring(0, lastParentheseO);
+			
+			}
+			
+			nom = nom.trim();
+			
+			String prenom = null;
+
+			int lastSpace = nom.lastIndexOf(" ");
+			if (lastSpace > 0) {
+				prenom = nom.substring(0, lastSpace);
+				nom = nom.substring(lastSpace);
+			}
+			nom = nom.trim();
+			info[0] = nom;
+			info[1] = prenom;
+			info[2] = rs.getString(2);
+			info[3] = rs.getString(3);
+			info[4] = rs.getString(4);
+			info[5] = rs.getString(5);
+			info[6] = rs.getString(6);
+			listInfos.add(info);
+			rs.next();
+		}
+
+		for (String[] s : listInfos) {
+			System.out.println();
+			double poids = 0;
+			double taille = 0;
+			if (!s[2].equals("NA"))
+			{
+				s[2] = s[2].replace(".", ".0");
+				taille = Double.parseDouble(s[2]);
+			
+			}
+			
+			if (!s[3].equals("NA"))
+			{
+				s[3] = s[3].replace(".", ".0");
+				System.out.println(s[3]);
+			poids = Double.parseDouble(s[3]);
+		
+			}
+			Integer naissance = 0;
+			Integer DateJO = Integer.parseInt(s[6]);
+			if (s[5].matches("-?\\d+"))
+			{
+			Integer intAge = Integer.parseInt(s[5]);
+			naissance  = DateJO - intAge;		
+			}
+			Athlete ath = new Athlete();
+			if (s[1] != null)
+			{
+			 ath = (Athlete) em.createNamedQuery("findAthByNomForEq", Athlete.class).setParameter("nom", s[0])
+					.setParameter("prenom", s[1]).setParameter("taille",  taille).setParameter("poids", poids).setParameter("genre",s[4]).setParameter("age", naissance)
+					.getSingleResult();
+			}
+			else {
+				 ath = (Athlete) em.createNamedQuery("findAthByNomForEqIfNull", Athlete.class).setParameter("nom", s[0])
+						.setParameter("taille",  taille).setParameter("poids", poids).setParameter("genre",s[4]).setParameter("age", naissance)
+						.getSingleResult();
+			}
+			listAth.add(ath);
+			for (Athlete a : listAth)
+			{
+				if (a.equals(listAth)==false)
+				{
+					setAth.add(a);
+				}
+			}
+			
+			listAth.clear();
+			listAth.addAll(setAth);
+			
+		}
+		return listAth;
+	}
 
 
 
@@ -233,7 +324,7 @@ public final class Athlete {
 
 
 	@Override
-	public boolean equals(Object obj) {
+	public  boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)

@@ -31,11 +31,12 @@ public class ConnexionJPA {
 	//	Epreuve.traiterEpreuve(em);
 	//	Competition.traiterCompet(em);
 	//	Athlete.recupAth(em);
-	//	Medaille.traiterMedaille(em);
+		Medaille.traiterMedaille(em);
 	//	Competition.recupEquipe(em);
 	//	Competition.recupSport(em);
 	//	Competition.recupEpreuve(em);
-		Equipe.recupAth(em);
+	//	Equipe.recupAth(em);
+	//	Pays.recupAth(em);
 		transaction.commit();
 	}
 

@@ -17,7 +17,7 @@ public class Doublon
 public static void main(String[] argv)
   	{
  
-  	// Créer un objet ArrayList
+ /* 	// Créer un objet ArrayList
    List<Competition> array_L = new ArrayList();
  
    
@@ -38,6 +38,6 @@ public static void main(String[] argv)
     List<Competition> array_L2 = new ArrayList<Competition>(mySet);
  
     // Afficher le contenu de ArrayList
-    System.out.println("Contenu sans doublon: "+array_L2);
+    System.out.println("Contenu sans doublon: "+array_L2);*/
   }
 }
