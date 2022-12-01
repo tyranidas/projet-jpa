@@ -29,49 +29,77 @@ import javax.persistence.Persistence;
 import javax.persistence.Table;
 
 import createTable.DataBase;
-
+/**
+ * @author Manuel Rougé
+ *
+ */
 @Entity
+/** Requête préparée pour un pays selon son code CIO*/
 @NamedQueries({
-
 	@NamedQuery(name="findPaysByName", query = "SELECT p FROM Pays as p where p.cio_Code =:pays"),
-	
 })
 @Table(name="ATHLETE")
 public final class Athlete {
 
-	
+	/**
+	 * colonne id, clef primaire incrédenté automatiquement
+	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column (name="nom", nullable = false)	
+	/**
+	 * colonne nom de l'athlete de taille 50 et non null
+	 */
+	@Column (name="nom", length = 50, nullable = false)	
 	private String nom;
 	
-	@Column (name="prenom")	
+	/**
+	 * colonne prénom de l'athlete de taille 100 
+	 */
+	@Column (name="prenom", length = 100)	
 	private String prenom;
 	
-	@Column (name="genre")	
+	/**
+	 * colonne genre de l'athlete de taille 1
+	 */
+	@Column (name="genre", length = 1)	
 	private String genre;
 	
-	@Column (name="annee_Naissance")	
+	/**
+	 * colonne année de naissance de l'athlete de taille 4
+	 */
+	@Column (name="annee_Naissance", length = 4)	
 	private Integer annee_Naissance;
 	
-	@Column (name="taille")	
+	/**
+	 * colonne taile de l'athlete de taille 3 en cm
+	 */
+	@Column (name="taille", length = 3)	
 	private Double taille;
-	
-	@Column (name="poids")	
+	/**
+	 * colonne poids de l'athlete de taille 3 en kg
+	 */
+	@Column (name="poids", length = 3)	
 	private Double poids;
 	
+	/**
+	 * liste des médailles gagnées par l'athlete
+	 */
 	@OneToMany(mappedBy = "athlete")
 	private List<Medaille> medaille;
-	
+	/**
+	 * liste des équipes où l'athlete a été
+	 */
 	@ManyToMany
 	@JoinTable (name="EQUIPE_ATHLETE",
 	joinColumns= @JoinColumn(name="id_Athlete", referencedColumnName ="id"),
 	inverseJoinColumns= @JoinColumn(name="id_Equipe", referencedColumnName = "id")
 	)
 	private List<Equipe> equipe;
-	
+	/**
+	 * liste des pays quel'athlete a représenté
+	 */
 	@ManyToMany
 	@JoinTable (name="PAYS_ATHLETE",
 	joinColumns= @JoinColumn(name="id_Athlete", referencedColumnName ="id"),
@@ -79,30 +107,28 @@ public final class Athlete {
 	)
 	private List<Pays> pays;
 	
-	
-	public List<Pays> getPays() {
-		return pays;
-	}
-
-	public void setPays(List<Pays> pays) {
-		this.pays = pays;
-	}
-
+	/**
+	 * Constructeur vide de la classe Athlete
+	 */
 	public Athlete()
 	{
 	}
 	
+	/** method qui permet de remplir la table Athlete de la base de donnée */
 	@SuppressWarnings("unlikely-arg-type")
-	public static void recupAth (EntityManager em) throws IOException
+	public static void traiterAth (EntityManager em) throws IOException
 	{
+		/** Appel de la méthode recupFichier pour traiter le document csv */
 		List<String> lines = DataBase.recupFichier("athlete_epreuves");
 		ArrayList<Athlete> listAth = new ArrayList<Athlete>();
 		Set<Athlete> setAth = new LinkedHashSet<>();
-			
+		/** On lit chaque ligne du document */	
 		for (String l : lines) {
+			/** Appel de la méthode createOneAth pour créer UN athlete */
 			Athlete athlete = createOneAth(l);
 			listAth.add(athlete);
 		}
+		/** On élimine les doublons */
 		for (Athlete a : listAth)
 		{
 			if (a.equals(listAth)==false)
@@ -112,57 +138,69 @@ public final class Athlete {
 		}
 		listAth.clear();
 		listAth.addAll(setAth);
+		/** On créer l'athlète dans la base de donnée */
 		for (Athlete a : listAth)
 	{
 		em.persist(a);
 	}
 	}
-	
+	/** Méthode pour créer un Athlete selon une ligne du fichier vsv */
 	public static Athlete createOneAth (String l) {
 		
 		String[] arrayS = new String[15];
+		/** on divise la ligne en 15 selon les ";" */
 		for (int i = 0; i < l.split(";").length; i++) {
 			arrayS[i] = l.split(";")[i];
 			
 		}
+		/** instantiation des 7 paramètres de la classe Athlete */
+		String nom = arrayS[1];
+		String prenom = null;
 		Integer intAge = 0;
 		Integer naissance  = 0;
 		double taille = 0;
 		double poids = 0;
 		String genre = arrayS[2];
+		
+		/** On récupère la date des JO afin de calculer l'année de naissance selon l'age */
 		Integer DateJO = Integer.parseInt(arrayS[9]);
 		if (arrayS[3].matches("-?\\d+"))
 		{
 		intAge = Integer.parseInt(arrayS[3]);
 		naissance  = DateJO - intAge;		
 		}
+		/** si la taille n'est pas connue on la remplace par 0 sinon on récupère celle du fichier csv */
 		if (!arrayS[4].equals("NA"))
 		{
 			arrayS[4] = arrayS[4].replace(".", ".5");
 			taille = Double.parseDouble(arrayS[4]);
 		}
+		/** si le poids n'est pas connu on la remplace par 0 sinon on récupère celle du fichier csv */
 		if (!arrayS[5].equals("NA"))
 		{
 			arrayS[5] = arrayS[5].replace(".", ".1");
 			poids = Double.parseDouble(arrayS[5]);
 		}
-		String nom = arrayS[1];
+		/** gestion du nom prénom */
 		nom = nom.trim();
+		/** On identifie s'il y a un nom entre parenthèse */
 		int lastParentheseO = nom.lastIndexOf("(");
 		if (lastParentheseO >0)
 		{
+			/** on supprime ce nom entre parenthèse */
 		nom = nom.substring(0, lastParentheseO);
 		}
 		nom = nom.trim();
-		String prenom = null;
+		/** on identifie la dernière partie du nom pour l'assigner au nom */
 		int lastSpace = nom.lastIndexOf(" ");
+		/* si plusieurs partie, la dernière est le nom, tout ce qu'il y avant est le prénom */
 		if (lastSpace > 0)
 		{
 			prenom = nom.substring(0, lastSpace);
 			nom =  nom.substring(lastSpace);
 		}
 		nom = nom.trim();
-		
+		/** instanciation de l'athlete */
 		Athlete athlete = new Athlete ();
 		athlete.setAnnee_Naissance(naissance);
 		athlete.setGenre(genre);
@@ -174,13 +212,14 @@ public final class Athlete {
 		return athlete;
 	}
 	
-	
+	/** méthode pour trouver une liste d'athlete dans la base de donnée selon les résultats d'une requete*/
 	@SuppressWarnings("unlikely-arg-type")
 	public static List<Athlete> findAth(ResultSet rs, EntityManager em) throws SQLException
 	{
 		List<Athlete> listAth = new ArrayList<>();
 		HashSet<Athlete> setAth = new LinkedHashSet<>();
 		HashSet<String[]> listInfos = new HashSet<String[]>();
+		/** On parcourt la liste de Résultat pour y récupérer les infos sur l'athlète recherché selon une requete dans la base de donnée brute*/
 		while (rs.next()) {
 			String[] info = new String[7];
 			String nom = rs.getString(1);
@@ -209,9 +248,9 @@ public final class Athlete {
 			listInfos.add(info);
 			rs.next();
 		}
-
+		/** On parcours la liste des infos sur l'athlète */
 		for (String[] s : listInfos) {
-			System.out.println();
+			/** on change les infos de type string pour le type approprié */
 			double poids = 0;
 			double taille = 0;
 			if (!s[2].equals("NA"))
@@ -232,7 +271,10 @@ public final class Athlete {
 			Integer intAge = Integer.parseInt(s[5]);
 			naissance  = DateJO - intAge;		
 			}
+			/** une fois qu'on a toute les infos on instancie l'athlète */
 			Athlete ath = new Athlete();
+			
+			/** Selon s'il a un prénom ou pas on choisit quelle requete on lance */
 			if (s[1] != null)
 			{
 			 ath = (Athlete) em.createNamedQuery("findAthByNomForEq", Athlete.class).setParameter("nom", s[0])
@@ -245,6 +287,8 @@ public final class Athlete {
 						.getSingleResult();
 			}
 			listAth.add(ath);
+			
+			/** on élimine les doublons */
 			for (Athlete a : listAth)
 			{
 				if (a.equals(listAth)==false)
@@ -256,24 +300,127 @@ public final class Athlete {
 			listAth.clear();
 			listAth.addAll(setAth);
 		}
+		/** on retourne la liste d'athlète demandée */
 		return listAth;
 	}
+	
+	/**
+	 * @return le prenom
+	 */
+	public String getPrenom() {
+		return prenom;
+	}
 
+	/**
+	 * @param prenom
+	 */
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	/**
+	 * @return le nom
+	 */
+	public String getNom() {
+		return nom;
+	}
+
+	/**
+	 * @param nom
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	/**
+	 * @return le genre
+	 */
+	public String getGenre() {
+		return genre;
+	}
+
+	/**
+	 * @param genre
+	 */
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	/**
+	 * @return l'année de naissance
+	 */
+	public Integer getAnnee_Naissance() {
+		return annee_Naissance;
+	}
+
+	/**
+	 * @param annee_Naissance
+	 */
+	public void setAnnee_Naissance(Integer annee_Naissance) {
+		this.annee_Naissance = annee_Naissance;
+	}
+
+	/**
+	 * @return la taille
+	 */
+	public Double getTaille() {
+		return taille;
+	}
+
+	/**
+	 * @param taille
+	 */
+	public void setTaille(Double taille) {
+		this.taille = taille;
+	}
+
+	/**
+	 * @return le poids
+	 */
+	public Double getPoids() {
+		return poids;
+	}
+
+	/**
+	 * @param poids
+	 */
+	public void setPoids(Double poids) {
+		this.poids = poids;
+	}
+	
+	/**
+	 * @return liste de Pays
+	 */
+	public List<Pays> getPays() {
+		return pays;
+	}
+
+	/**
+	 * @param pays
+	 */
+	public void setPays(List<Pays> pays) {
+		this.pays = pays;
+	}
+	/**
+	 * @return une liste d'équipe
+	 */
 	public List<Equipe> getEquipe() {
 		return equipe;
 	}
 
+	/**
+	 * @param equipe
+	 */
 	public void setEquipe(List<Equipe> equipe) {
 		this.equipe = equipe;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(annee_Naissance, genre, nom, poids, prenom, taille);
-	}
 
 
 
+	/**
+	 * vérifie les doublons
+	 */
 	@Override
 	public  boolean equals(Object obj) {
 		if (this == obj)
@@ -288,6 +435,9 @@ public final class Athlete {
 				&& Objects.equals(prenom, other.prenom) && Objects.equals(taille, other.taille);
 	}
 
+	/**
+	 * affiche les infos de l'athlète en String
+	 */
 	@Override
 	public String toString() {
 		return "Athlete [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", genre=" + genre + ", annee_Naissance="
@@ -301,65 +451,7 @@ public final class Athlete {
 
 
 
-	public String getPrenom() {
-		return prenom;
-	}
-
-
-
-
-
-
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-
-
-
-
-
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getGenre() {
-		return genre;
-	}
-
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
-
-	public Integer getAnnee_Naissance() {
-		return annee_Naissance;
-	}
-
-	public void setAnnee_Naissance(Integer annee_Naissance) {
-		this.annee_Naissance = annee_Naissance;
-	}
-
-	public Double getTaille() {
-		return taille;
-	}
-
-	public void setTaille(Double taille) {
-		this.taille = taille;
-	}
-
-	public Double getPoids() {
-		return poids;
-	}
-
-	public void setPoids(Double poids) {
-		this.poids = poids;
-	}
+	
 	
 	
 

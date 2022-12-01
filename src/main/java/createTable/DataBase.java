@@ -26,14 +26,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class DataBase {
-
+	/** méthod pour créer la base de données */
 	public static void main(String args[]) throws SQLException, ClassNotFoundException, IOException 
 	{
-
+		/** connexion à la BDD */
 		Statement stmt = connectionDB();
 
 		List<String> createTable = new ArrayList<String>();
-
+		/** on créé toutes les tables et on les ajoutes à une liste */
 		String createAthlete = "CREATE TABLE ATHLETE " + "(id  INTEGER (11) PRIMARY KEY AUTO_INCREMENT,"
 				+ " nom VARCHAR(50), " + " prenom VARCHAR(100), " + "genre CHAR(1), " + "annee_Naissance INTEGER(4),"
 				+ "taille INTEGER(3)," + "poids INTEGER(3)" + ")";
@@ -44,25 +44,25 @@ public class DataBase {
 				+ "CIO_Code  CHAR (3)," + " nom_FR VARCHAR(50), " + " nom_ENG VARCHAR(50), "
 				+ "code_ISO_Alpha3 CHAR(3)," + "obsolète CHAR(1)" + ")";
 
-//		createTable.add(createPays);
+		createTable.add(createPays);
 
 		String createSport = "CREATE TABLE SPORT " + "(id  INTEGER (11) PRIMARY KEY AUTO_INCREMENT,"
 				+ " nom_FR VARCHAR(50), " + "nom_ENG VARCHAR(50) " + ")";
 
-//		createTable.add(createSport);
+		createTable.add(createSport);
 
 		String createEpreuve = "CREATE TABLE EPREUVE " + "(id  INTEGER (11) PRIMARY KEY AUTO_INCREMENT,"
 				+ " nom_FR VARCHAR(50), " + "nom_ENG VARCHAR(50), " + "id_Sport INTEGER(11),"
 				+ "CONSTRAINT FK_EPREUVE_SPORT FOREIGN KEY (id_Sport) REFERENCES SPORT(ID)" + ")";
-	//	createTable.add(createEpreuve);
+		createTable.add(createEpreuve);
 
 		String createEquipe = "CREATE TABLE EQUIPE " + "(id  INTEGER PRIMARY KEY AUTO_INCREMENT," + " nom VARCHAR(50), "
 				+ "id_Pays INTEGER(11)," + "CONSTRAINT FK_EQUIPE_PAYS FOREIGN KEY (id_Pays) REFERENCES PAYS(id)" + ")";
-	//	createTable.add(createEquipe);
+		createTable.add(createEquipe);
 
 		String createCompet = "CREATE TABLE COMPETITION " + "(id  INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ " edition INTEGER(4), " + "saison VARCHAR (6)," + "ville VARCHAR(100)," + "id_Pays INTEGER(11)" + ")";
-	//	createTable.add(createCompet);
+		createTable.add(createCompet);
 
 		String createMedaille = "CREATE TABLE MEDAILLE " + "(id  INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ " type VARCHAR(6), " + "id_Athlete INTEGER(11)," + "id_Epreuve INTEGER(11),"
@@ -83,7 +83,7 @@ public class DataBase {
 				+ "CONSTRAINT FK_EQUI_COMP_EQUI FOREIGN KEY (id_Equipe) REFERENCES EQUIPE(id),"
 				+ "CONSTRAINT FK_EQUI_COMP_COMP FOREIGN KEY (id_Competition) REFERENCES COMPETITION(id),"
 				+ "CONSTRAINT PK_EQUI_COMP PRIMARY KEY (id_Equipe, id_Competition)" + ")";
-	//	createTable.add(createEquipeCompet);
+		createTable.add(createEquipeCompet);
 
 		String createEquipeAthlet = "CREATE TABLE EQUIPE_ATHLETE " + "(id_Equipe INTEGER(11),"
 				+ "id_Athlete INTEGER(11),"
@@ -97,15 +97,16 @@ public class DataBase {
 				+ "CONSTRAINT FK_SPO_COMP_SPO FOREIGN KEY (id_Sport) REFERENCES SPORT(id),"
 				+ "CONSTRAINT FK_SPO_COMP_COMP FOREIGN KEY (id_Competition) REFERENCES COMPETITION(id),"
 				+ "CONSTRAINT PK_SPO_COMP PRIMARY KEY (id_Sport, id_Competition)" + ")";
-//		createTable.add(createSportComp);
+		createTable.add(createSportComp);
 
 		String createEpreuvComp = "CREATE TABLE EPREUVE_COMPETITION " + "(id_Epreuve INTEGER(11),"
 				+ "id_Competition INTEGER(11),"
 				+ "CONSTRAINT FK_EPR_COMP_EPR FOREIGN KEY (id_Epreuve) REFERENCES EPREUVE(id),"
 				+ "CONSTRAINT FK_EPR_COMP_COMP FOREIGN KEY (id_Competition) REFERENCES COMPETITION(id),"
 				+ "CONSTRAINT PK_EPR_COMP PRIMARY KEY (id_Epreuve, id_Competition)" + ")";
-//		createTable.add(createEpreuvComp);
+		createTable.add(createEpreuvComp);
 
+		/** s'il le faut on détruit les tables /!\ faire un truc mieux que ajouter/enlever les commentaires) */
 	/*	stmt.execute("DROP TABLE EPREUVE_COMPETITION");
 		stmt.execute("DROP TABLE SPORT_COMPETITION");
 		stmt.execute("DROP TABLE EQUIPE_ATHLETE");
@@ -118,12 +119,12 @@ public class DataBase {
 		stmt.execute("DROP TABLE SPORT");
 		stmt.execute("DROP TABLE PAYS");
 		stmt.execute("DROP TABLE ATHLETE");*/
-
+		/** pour chaque table on execute la requete */
 	for (String req : createTable) {
 			stmt.execute(req);
 		}
 	}
-		
+		/** Une méthode pour se connecter à la Base de donnée via un DriverManager*/
 	public static Statement connectionDB() throws ClassNotFoundException, SQLException 
 	{
 		ResourceBundle config = ResourceBundle.getBundle("propriete");
@@ -136,15 +137,16 @@ public class DataBase {
 		Statement stmt = connect.createStatement();
 		return stmt;
 	}
-
+		/** une méthode pour récupérer un fichier .vsv encodé en UTF8 */
 	public static List<String> recupFichier(String nomFichier  ) throws IOException 
 	{
 		Path path = Paths.get(".\\src\\main\\resources\\" + nomFichier + ".csv");
 		List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+		/** on supprime la 1ere ligne */
 		lines.remove(0);
 		return lines;
 	}
-	
+	 /** une méthode pour se connecter à la BDD via EntityManager */
 	public static EntityManager connectionDBem ()
 	{
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Jeux_Olympiques");

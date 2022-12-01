@@ -30,7 +30,7 @@ public class ConnexionJPA {
 	//	Sport.traiterSport(em);
 	//	Epreuve.traiterEpreuve(em);
 	//	Competition.traiterCompet(em);
-	//	Athlete.recupAth(em);
+	//	Athlete.traiterAth(em);
 	//	Medaille.traiterMedaille(em);
 	//	Competition.recupEquipe(em);
 	//	Competition.recupSport(em);
